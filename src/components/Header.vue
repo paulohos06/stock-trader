@@ -30,7 +30,8 @@
           text
           small
           class="text-uppercase caption grey--text text--darken-1"
-        >Saldo: {{ funds | currency }}</span>
+          >Saldo: {{ funds | currency }}</span
+        >
       </v-layout>
     </v-toolbar-items>
   </v-app-bar>

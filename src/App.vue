@@ -3,7 +3,13 @@
     <Header />
     <v-content>
       <v-container>
-        <router-view></router-view>
+        <transition
+          mode="out-in"
+          enter-active-class="animated fadeInUp"
+          leave-active-class="animated fadeOut"
+        >
+          <router-view></router-view>
+        </transition>
       </v-container>
     </v-content>
   </v-app>
