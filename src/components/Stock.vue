@@ -4,8 +4,13 @@
       <v-card-title class="body-1">
         <strong>
           {{ stock.name }}
-          <small v-if="page === 'Stocks'">(Preço: {{ stock.price }})</small>
-          <small v-else>(Preço: {{ stock.price }} | Qte: {{ stock.quantity }})</small>
+          <small v-if="page === 'Stocks'"
+            >(Preço: {{ stock.price | currency }})</small
+          >
+          <small v-else
+            >(Preço: {{ stock.price | currency }} | Qte:
+            {{ stock.quantity }})</small
+          >
         </strong>
       </v-card-title>
     </v-card>
@@ -18,7 +23,9 @@
               label="Quantidade"
               type="number"
               v-model.number="quantity"
-              :error="quantity < 0 || !Number.isInteger(quantity) || manageTransaction"
+              :error="
+                quantity < 0 || !Number.isInteger(quantity) || manageTransaction
+              "
             />
           </v-col>
           <v-spacer></v-spacer>
@@ -27,9 +34,14 @@
               depressed
               class="mt-3 darken-3 white--text"
               :class="cardStyle"
-              :disabled="quantity <= 0 || !Number.isInteger(quantity) || manageTransaction"
+              :disabled="
+                quantity <= 0 ||
+                  !Number.isInteger(quantity) ||
+                  manageTransaction
+              "
               @click="transaction"
-            >{{ buttonLabel }}</v-btn>
+              >{{ buttonLabel }}</v-btn
+            >
           </v-col>
         </v-row>
       </v-container>
