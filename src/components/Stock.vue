@@ -5,9 +5,7 @@
         <strong>
           {{ stock.name }}
           <small v-if="page === 'Stocks'">(Preço: {{ stock.price }})</small>
-          <small v-else
-            >(Preço: {{ stock.price }} | Qte: {{ stock.quantity }})</small
-          >
+          <small v-else>(Preço: {{ stock.price }} | Qte: {{ stock.quantity }})</small>
         </strong>
       </v-card-title>
     </v-card>
@@ -20,6 +18,7 @@
               label="Quantidade"
               type="number"
               v-model.number="quantity"
+              :error="quantity < 0 || !Number.isInteger(quantity) || manageTransaction"
             />
           </v-col>
           <v-spacer></v-spacer>
@@ -28,10 +27,9 @@
               depressed
               class="mt-3 darken-3 white--text"
               :class="cardStyle"
-              :disabled="quantity <= 0 || !Number.isInteger(quantity)"
+              :disabled="quantity <= 0 || !Number.isInteger(quantity) || manageTransaction"
               @click="transaction"
-              >{{ buttonLabel }}</v-btn
-            >
+            >{{ buttonLabel }}</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -54,12 +52,19 @@ export default {
     buttonLabel() {
       return this.page === 'Stocks' ? 'Comprar' : 'Vender'
     },
-    quantityGteStockQuantity() {
-      // if (this.stock.quantity) {
-      //   if (this.quantity > this.stock.quantity) return false
-      //   else return true
-      // }
-      return true
+    funds() {
+      return this.$store.getters.getFunds
+    },
+    manageTransaction() {
+      if (this.page === 'Stocks') return this.insufficientFunds
+      else if (this.page === 'Portfolio') return this.insufficientQuantity
+      return false
+    },
+    insufficientFunds() {
+      return this.quantity * this.stock.price > this.funds
+    },
+    insufficientQuantity() {
+      return this.quantity > this.stock.quantity
     },
   },
   data() {

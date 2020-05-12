@@ -14,7 +14,6 @@ export default {
           quantity: payload.quantity,
         })
       }
-      // funds readjust
       state.funds -= payload.quantity * payload.price
     },
     sellStock(state, payload) {
@@ -23,9 +22,8 @@ export default {
         record.quantity -= payload.quantity
       } else {
         state.stocks.splice(state.stocks.indexOf(record.id), 1)
-        // reajusta o dinheiro na carteira
-        state.funds += payload.quantity * payload.price
       }
+      state.funds += payload.quantity * payload.price
     },
   },
   actions: {
@@ -40,7 +38,7 @@ export default {
         return {
           id: stock.id,
           name: record.name,
-          price: record.name,
+          price: record.price,
           quantity: stock.quantity,
         }
       })
