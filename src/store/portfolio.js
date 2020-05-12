@@ -1,7 +1,7 @@
 export default {
   state: {
     stocks: [],
-    funds: 1000,
+    funds: 10000,
   },
   mutations: {
     buyStock(state, payload) {

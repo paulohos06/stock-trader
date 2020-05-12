@@ -8,6 +8,11 @@ export default {
     setStocks(state, payload) {
       state.stocks = payload
     },
+    randomizeStocks(state) {
+      state.stocks.map(stock => {
+        stock.price = Math.round(stock.price * (1 + Math.random() - 0.45))
+      })
+    },
   },
   actions: {
     initStocks(context) {
@@ -15,6 +20,9 @@ export default {
     },
     buyStock({ commit }, order) {
       commit('buyStock', order)
+    },
+    randomizeStocks(context) {
+      context.commit('randomizeStocks')
     },
   },
   getters: {

@@ -14,7 +14,7 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-items>
-      <v-btn text small>Finalizar Dia</v-btn>
+      <v-btn text small @click="endDay">Finalizar Dia</v-btn>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn text small v-on="on">Opções</v-btn>
@@ -30,14 +30,15 @@
           text
           small
           class="text-uppercase caption grey--text text--darken-1"
-          >Saldo: {{ funds | currency }}</span
-        >
+        >Saldo: {{ funds | currency }}</span>
       </v-layout>
     </v-toolbar-items>
   </v-app-bar>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Header',
   data() {
@@ -51,6 +52,12 @@ export default {
   computed: {
     funds() {
       return this.$store.getters.getFunds
+    },
+  },
+  methods: {
+    ...mapActions(['randomizeStocks']),
+    endDay() {
+      this.randomizeStocks()
     },
   },
 }
