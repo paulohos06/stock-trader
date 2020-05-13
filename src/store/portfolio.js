@@ -25,6 +25,10 @@ export default {
       }
       state.funds += payload.quantity * payload.price
     },
+    setStocksPortfolio(state, portfolio) {
+      state.funds = portfolio.funds
+      state.stocks = portfolio.stocksPortfolio ? portfolio.stocksPortfolio : []
+    },
   },
   actions: {
     sellStock(context, order) {

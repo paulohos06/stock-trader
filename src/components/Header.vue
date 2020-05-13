@@ -21,7 +21,9 @@
         </template>
         <v-list>
           <v-list-item v-for="(item, index) in menuItems" :key="index">
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title>
+              <v-btn text small @click="database(item)">{{ item.title }}</v-btn>
+            </v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -56,9 +58,25 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['randomizeStocks']),
+    ...mapActions(['randomizeStocks', 'loadData']),
     endDay() {
       this.randomizeStocks()
+    },
+    database(item) {
+      if (item.title === 'Salvar dados') this.saveData()
+      else if (item.title === 'Carregar dados') this.loadDataLocal()
+    },
+    saveData() {
+      const { getFunds, getStocksPortfolio, getStocks } = this.$store.getters
+      const order = {
+        funds: getFunds,
+        stocksPortfolio: getStocksPortfolio,
+        stocks: getStocks,
+      }
+      this.$http.put('data.json', order)
+    },
+    loadDataLocal() {
+      this.loadData()
     },
   },
 }
